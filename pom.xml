@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.apollo4634</groupId>
-    <artifactId>seam-carving</artifactId>
+    <artifactId>SeamCarving</artifactId>
     <version>1.0-SNAPSHOT</version>
 
 
