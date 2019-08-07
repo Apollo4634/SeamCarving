@@ -40,7 +40,7 @@ public class PrintSeams {
 
         for (int row = 0; row < carver.height(); row++) {
             for (int col = 0; col < carver.width(); col++) {
-                double energy = carver.energy(col, row);
+                double energy = carver.energyAt(col, row);
                 String marker = " ";
                 if ((direction == HORIZONTAL && row == seam[col]) ||
                     (direction == VERTICAL   && col == seam[row])) {

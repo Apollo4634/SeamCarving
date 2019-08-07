@@ -21,7 +21,7 @@ public class PrintEnergy {
 
         for (int row = 0; row < sc.height(); row++) {
             for (int col = 0; col < sc.width(); col++)
-                System.out.printf("%9.0f ", sc.energy(col, row));
+                System.out.printf("%9.0f ", sc.energyAt(col, row));
             System.out.println();
         }
     }

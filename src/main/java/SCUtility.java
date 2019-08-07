@@ -34,7 +34,7 @@ public class SCUtility {
         double[][] returnDouble = new double[sc.width()][sc.height()];
         for (int col = 0; col < sc.width(); col++)
             for (int row = 0; row < sc.height(); row++)
-                returnDouble[col][row] = sc.energy(col, row);
+                returnDouble[col][row] = sc.energyAt(col, row);
     
         return returnDouble;        
     }

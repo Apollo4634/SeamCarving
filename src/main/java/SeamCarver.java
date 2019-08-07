@@ -26,6 +26,8 @@ public class SeamCarver {
         imgW = img.width();
         imgH = img.height();
         energy = new double[imgW][imgH];
+
+
         energyFill();
     }
 
@@ -35,7 +37,7 @@ public class SeamCarver {
     private void energyFill() {
         for (int i = 0; i < imgW; i++) {
             for (int j = 0; j < imgH; j++) {
-                energy[i][j] = energy(i, j);
+                energy[i][j] = energyAt(i, j);
             }
         }
     }
@@ -64,7 +66,7 @@ public class SeamCarver {
     /**
      * return energy of pixel at column x and row y.
      */
-    public double energy(int x, int y) {
+    public double energyAt(int x, int y) {
 
         // bound check
         if (x < 0 || x > imgW - 1) {
@@ -163,10 +165,11 @@ public class SeamCarver {
             }
         }
 
-        // calcu dist directly connected to source
-        for (int j = 0; j < height; j++) {
-            distTo[0][j] = energy[0][j];
-        }
+        // calc dist directly connected to source
+//        for (int j = 0; j < height; j++) {
+//            distTo[0][j] = energy[0][j];
+//        }
+        System.arraycopy(energy[0], 0, distTo[0], 0, height);
 
         // relaxation in topological order
         for (int i = 0; i < width - 1; i++) {
@@ -212,7 +215,7 @@ public class SeamCarver {
         // chose dest vertex
         int dest = 0;
 
-        // set search colum
+        // set search column
         int endCol = width - 1;
 
         // find shortest
@@ -320,12 +323,12 @@ public class SeamCarver {
             // update, need to check corner case
             if (split > 0) {
                 // energyUpdated[col][split - 1] = energy(split - 1, col);
-                energy[col][split - 1] = energy(split - 1, col);
+                energy[col][split - 1] = energyAt(split - 1, col);
             }
 
             if (split < height - 1) {
                 // energyUpdated[col][split] = energy(split, col);
-                energy[col][split] = energy(split, col);
+                energy[col][split] = energyAt(split, col);
             }
         }
 
@@ -363,8 +366,6 @@ public class SeamCarver {
             }
 
             // update energy parts
-            // System.arraycopy(energy[col], 0, energyUpdated[col], 0, split);
-            // System.arraycopy(energy[col], split + 1, energyUpdated[col], split, height - split - 1);
             System.arraycopy(energy[col], split + 1, energy[col], split, height - split - 1);
         }
 
@@ -379,12 +380,12 @@ public class SeamCarver {
             // update, need to check corner case
             if (split > 0) {
                 // energyUpdated[col][split - 1] = energy(col, split - 1);
-                energy[col][split - 1] = energy(col, split - 1);
+                energy[col][split - 1] = energyAt(col, split - 1);
             }
 
             if (split < height - 1) {
                 // energyUpdated[col][split] = energy(col, split);
-                energy[col][split] = energy(col, split);
+                energy[col][split] = energyAt(col, split);
             }
         }
 
@@ -397,7 +398,7 @@ public class SeamCarver {
      */
     private <T> void checkNull(T arg) {
         if (arg == null) {
-            throw new IllegalArgumentException("null argument");
+            throw new IllegalArgumentException("Null argument");
         }
     }
 
@@ -408,23 +409,20 @@ public class SeamCarver {
 
         // length check
         if (seam.length != height) {
-            throw new IllegalArgumentException("wrong vertical length");
+            throw new IllegalArgumentException("Wrong vertical length");
         }
 
         // idx check
         int prev = seam[0];
         for (int e : seam) {
-
             // consistency check
             if (Math.abs(e - prev) > 1) {
-                throw new IllegalArgumentException("adjs differ by more than 1");
+                throw new IllegalArgumentException("Adj differ by more than 1");
             }
-
             // idx range check
             if (e < 0 || e > width - 1) {
-                throw new IllegalArgumentException("wrong vertical length");
+                throw new IllegalArgumentException("Wrong vertical length");
             }
-
             // update previous element
             prev = e;
         }
@@ -443,17 +441,14 @@ public class SeamCarver {
         // idx check
         int prev = seam[0];
         for (int e : seam) {
-
             // consistency check
             if (Math.abs(e - prev) > 1) {
-                throw new IllegalArgumentException("adjs differ by more than 1");
+                throw new IllegalArgumentException("Adjacency differ by more than 1");
             }
-
             // idx range check
             if (e < 0 || e > height - 1) {
                 throw new IllegalArgumentException("wrong horizontal length");
             }
-
             // update previous element
             prev = e;
         }
