@@ -32,8 +32,8 @@
  ******************************************************************************/
 
 public class PrintSeams {
-    private static final boolean HORIZONTAL   = true;
-    private static final boolean VERTICAL     = false;
+    private static final boolean HORIZONTAL = true;
+    private static final boolean VERTICAL   = false;
 
     private static void printSeam(SeamCarver carver, int[] seam, boolean direction) {
         double totalSeamEnergy = 0.0;
@@ -50,11 +50,8 @@ public class PrintSeams {
                 System.out.printf("%7.2f%s ", energy, marker);
             }
             System.out.println();
-        }                
-        // StdOut.println();
-        System.out.printf("Total energy = %f\n", totalSeamEnergy);
-        System.out.println();
-        System.out.println();
+        }
+        System.out.printf("Total energy = %f\n\n", totalSeamEnergy);
     }
 
     public static void main(String[] args) {
@@ -80,7 +77,5 @@ public class PrintSeams {
             System.out.print(y + " ");
         System.out.println("}");
         printSeam(carver, horizontalSeam, HORIZONTAL);
-
     }
-
 }

@@ -8,17 +8,20 @@
  ******************************************************************************/
 
 import java.awt.Color;
+import java.util.Random;
+
 
 public class SCUtility {
 
     // create random width-by-height array of tiles
     public static Picture randomPicture(int width, int height) {
         Picture picture = new Picture(width, height);
+        Random random = new Random();
         for (int col = 0; col < width; col++) {
             for (int row = 0; row < height; row++) {
-                int r = StdRandom.uniform(255);
-                int g = StdRandom.uniform(255);
-                int b = StdRandom.uniform(255);
+                int r = random.nextInt(255);
+                int g = random.nextInt(255);
+                int b = random.nextInt(255);
                 Color color = new Color(r, g, b);
                 picture.set(col, row, color);
             }

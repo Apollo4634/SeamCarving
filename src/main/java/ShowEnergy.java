@@ -18,7 +18,7 @@ public class ShowEnergy {
         picture.show();        
         SeamCarver sc = new SeamCarver(picture);
 
-        System.out.println("Displaying energy calculated for each pixel.\n");
+        System.out.println("Displaying energy calculated for each pixel.");
         SCUtility.showEnergy(sc);
     }
 }

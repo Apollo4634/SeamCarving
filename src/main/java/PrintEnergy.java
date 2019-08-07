@@ -25,5 +25,4 @@ public class PrintEnergy {
             System.out.println();
         }
     }
-
 }

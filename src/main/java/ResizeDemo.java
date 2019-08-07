@@ -18,11 +18,12 @@ public class ResizeDemo {
         int removeRows;
 
         if (args.length != 3) {
-            System.out.println("Warning: Invalid parameters!");
+            System.out.println("Warning: Illegal Argument!");
             System.out.println("Usage: java ResizeDemo [image filename] [num cols to remove] [num rows to remove]");
-            inputImg = new Picture("./test.png");
-            removeColumns = 1;
-            removeRows = 1;
+
+            inputImg = new Picture("D:/test.png");
+            removeColumns = 100;
+            removeRows = 20;
         } else {
             inputImg = new Picture(args[0]);
             removeColumns = Integer.parseInt(args[1]);
@@ -48,7 +49,7 @@ public class ResizeDemo {
         System.out.printf("new image size is %d columns by %d rows\n", sc.width(), sc.height());
 
         long end = System.currentTimeMillis();
-        System.out.println("Resizing time: " + (end-start)/1000 + " seconds.");
+        System.out.println("Resizing time: " + (end-start)/1E3 + " seconds.");
         inputImg.show();
         outputImg.show();
     }

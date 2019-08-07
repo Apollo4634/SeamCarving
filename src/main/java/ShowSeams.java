@@ -6,7 +6,6 @@
  *  Read image from file specified as command line argument. Show 3 images 
  *  original image as well as horizontal and vertical seams of that image.
  *  Each image hides the previous one - drag them to see all three.
- *
  ******************************************************************************/
 
 public class ShowSeams {
@@ -18,7 +17,6 @@ public class ShowSeams {
         overlay.show();
     }
 
-
     private static void showVerticalSeam(SeamCarver sc) {
         Picture picture = SCUtility.toEnergyPicture(sc);
         int[] verticalSeam = sc.findVerticalSeam();
@@ -26,18 +24,17 @@ public class ShowSeams {
         overlay.show();
     }
 
+
     public static void main(String[] args) {
         Picture picture = new Picture(args[0]);
         System.out.printf("image is %d columns by %d rows\n", picture.width(), picture.height());
         picture.show();        
         SeamCarver sc = new SeamCarver(picture);
 
-        System.out.printf("Displaying horizontal seam calculated.\n");
+        System.out.println("Displaying horizontal seam calculated.");
         showHorizontalSeam(sc);
 
-        System.out.printf("Displaying vertical seam calculated.\n");
+        System.out.println("Displaying vertical seam calculated.");
         showVerticalSeam(sc);
-
     }
-
 }
