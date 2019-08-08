@@ -1,44 +1,46 @@
-import java.util.concurrent.BrokenBarrierException;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.Semaphore;
 
-public class EnergyTask<V> implements Callable<V> {
-    private volatile Picture img;
-    private int imgW;
-    private int imgH;
-    private int from;
-    private int to;
-    private CyclicBarrier barrier;
-    private volatile double[][] energy;
+public class EnergyTask implements Callable<EnergyInfo> {
 
-    public EnergyTask(CyclicBarrier barrier, Picture img, int from, int to) {
-        //super(runnable, result);
-        this.barrier = barrier;
+    private final Picture img;
+    private final int imgW;
+    private final int imgH;
+    private final int from;
+    private final int to;
+    private final Semaphore semaphore;
+    private EnergyInfo info;
+    private double[][] energy;
+
+    public EnergyTask(Semaphore semaphore, Picture img, int from, int to) {
+        this.semaphore = semaphore;
         this.img = img;
         this.imgW = img.width();
         this.imgH = img.height();
         this.from = from;
         this.to = to;
+
+        //info = new EnergyInfo(null, from);
     }
 
     @Override
-    public V call() throws Exception {
-        energy = new double[to-from][imgH];
-        for (int i = from; i < to; i++) {
-            for (int j = 0; j < imgH; i++) {
-                energy[i][j] = energyAt(i, j);
-            }
-        }
-
+    public EnergyInfo call() throws Exception {
         try {
-            barrier.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (BrokenBarrierException e) {
-            e.printStackTrace();
-            System.out.println("BrokenBarrierException");
+            energy = new double[to-from][imgH];
+            for (int i = from; i < to; i++) {
+                for (int j = 0; j < imgH; j++) {
+                    energy[i-from][j] = energyAt(i, j);
+                }
+            }
+            info = new EnergyInfo(energy, from);
+        } catch (RejectedExecutionException e) {
+            info = null;
+        } finally {
+            semaphore.release();
         }
-        return (V) energy;
+        return info;
     }
 
 

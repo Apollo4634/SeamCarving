@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -29,13 +30,22 @@ public class SeamCarver {
         imgH = img.height();
         energy = new double[imgW][imgH];
 
+        long t1 = System.nanoTime();
         try {
-            new EnergyCalculator(img).start();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            EnergyCalculator calculator = new EnergyCalculator(img);
+            calculator.start();
+            energy = calculator.energy();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        long t2 = System.nanoTime();
+        System.out.println((t2-t1)/1E6+" ms");
+
+
+        long t3 = System.nanoTime();
+        energyFill(0, imgW);
+        long t4 = System.nanoTime();
+        System.out.println((t4-t3)/1E6+" ms");
     }
 
     /**

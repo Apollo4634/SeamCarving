@@ -21,9 +21,9 @@ public class ResizeDemo {
             System.out.println("Warning: Illegal Argument!");
             System.out.println("Usage: java ResizeDemo [image filename] [num cols to remove] [num rows to remove]");
 
-            inputImg = new Picture("D:/test.png");
-            removeColumns = 100;
-            removeRows = 20;
+            inputImg = new Picture("D:/3.png");
+            removeColumns = inputImg.width() / 4;
+            removeRows = inputImg.height() / 4;
         } else {
             inputImg = new Picture(args[0]);
             removeColumns = Integer.parseInt(args[1]);
