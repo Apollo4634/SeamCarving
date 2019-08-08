@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.Semaphore;
@@ -17,8 +18,8 @@ public class EnergyTask implements Callable<EnergyInfo> {
     public EnergyTask(Semaphore semaphore, Picture img, int from, int to) {
         this.semaphore = semaphore;
         this.img = img;
-        this.imgW = img.width();
-        this.imgH = img.height();
+        this.imgW = (img == null)? 0 : img.width();
+        this.imgH = (img == null)? 0 : img.height();
         this.from = from;
         this.to = to;
 
@@ -30,6 +31,7 @@ public class EnergyTask implements Callable<EnergyInfo> {
 
     @Override
     public EnergyInfo call() throws Exception {
+        if (semaphore == null || img == null) return null;
         try {
             energy = new double[to-from][imgH];
             for (int i = from; i < to; i++) {
