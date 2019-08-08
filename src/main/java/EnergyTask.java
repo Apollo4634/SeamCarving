@@ -22,7 +22,10 @@ public class EnergyTask implements Callable<EnergyInfo> {
         this.from = from;
         this.to = to;
 
-        //info = new EnergyInfo(null, from);
+        // bound check
+        if (from > to || from < 0 || to > imgW) {
+            throw new IllegalArgumentException("idx x out of range");
+        }
     }
 
     @Override
@@ -45,14 +48,6 @@ public class EnergyTask implements Callable<EnergyInfo> {
 
 
     private double energyAt(int x, int y) {
-        // bound check
-        if (x < 0 || x > imgW - 1) {
-            throw new IllegalArgumentException("idx x out of range");
-        }
-        if (y < 0 || y > imgH - 1) {
-            throw new IllegalArgumentException("idx y out of range");
-        }
-
         // border
         if (x == 0 || x == imgW - 1 || y == 0 || y == imgH - 1) {
             return 1000.0;
