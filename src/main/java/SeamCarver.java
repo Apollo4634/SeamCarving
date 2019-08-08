@@ -1,3 +1,5 @@
+import java.util.concurrent.ExecutionException;
+
 /**
  * SeamCarver. Seam-carving is a content-aware image resizing technique where
  * the image is reduced in size by one pixel of height (or width) at a time.
@@ -8,7 +10,7 @@ public class SeamCarver {
     private Picture img;
     private int imgW;
     private int imgH;
-    private double[][] energy;
+    private volatile double[][] energy;
     private boolean isEnergyTransposed = false;
 
     /**
@@ -27,15 +29,20 @@ public class SeamCarver {
         imgH = img.height();
         energy = new double[imgW][imgH];
 
-
-        energyFill();
+        try {
+            new EnergyCalculator(img).start();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * calculate energy array.
      */
-    private void energyFill() {
-        for (int i = 0; i < imgW; i++) {
+    private void energyFill(int from, int to) {
+        for (int i = from; i < to; i++) {
             for (int j = 0; j < imgH; j++) {
                 energy[i][j] = energyAt(i, j);
             }
@@ -164,11 +171,6 @@ public class SeamCarver {
                 distTo[i][j] = Double.POSITIVE_INFINITY;
             }
         }
-
-        // calc dist directly connected to source
-//        for (int j = 0; j < height; j++) {
-//            distTo[0][j] = energy[0][j];
-//        }
         System.arraycopy(energy[0], 0, distTo[0], 0, height);
 
         // relaxation in topological order
@@ -183,7 +185,7 @@ public class SeamCarver {
                 // store relaxed dist
                 double distRelax = 0.0;
 
-                // below-left
+                // top-right
                 if (y >= 0) {
                     distRelax = distV + energy[x][y];
                     if (distTo[x][y] > distRelax) {
@@ -192,7 +194,7 @@ public class SeamCarver {
                     }
                 }
 
-                // below-right
+                // lower-right
                 y += 2;
                 if (y < height) {
                     distRelax = distV + energy[x][y];
@@ -202,7 +204,7 @@ public class SeamCarver {
                     }
                 }
 
-                // below-middle
+                // right
                 y--;
                 distRelax = distV + energy[x][y];
                 if (distTo[x][y] > distRelax) {
