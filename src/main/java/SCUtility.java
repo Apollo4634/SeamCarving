@@ -1,12 +1,3 @@
-/******************************************************************************
- *  Compilation:  javac SCUtility.java
- *  Execution:    none
- *  Dependencies: SeamCarver.java
- *
- *  Some utility functions for testing SeamCarver.java.
- *
- ******************************************************************************/
-
 import java.awt.Color;
 import java.util.Random;
 

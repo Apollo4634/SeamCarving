@@ -1,14 +1,3 @@
-/******************************************************************************
- *  Compilation:  javac ShowEnergy.java
- *  Execution:    java ShowEnergy input.png
- *  Dependencies: SeamCarver.java SCUtility.java
- *                
- *
- *  Read image from file specified as command line argument. Show original
- *  image (only useful if image is large enough).
- *
- ******************************************************************************/
-
 
 public class ShowEnergy {
 

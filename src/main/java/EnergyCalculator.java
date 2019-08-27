@@ -24,18 +24,18 @@ public class EnergyCalculator {
     private static final Semaphore semaphore = new Semaphore(CPU_NUMS+1);
 
 
-    public EnergyCalculator(Picture img) {
+    EnergyCalculator(Picture img) {
         this.img = img;
         this.imgH = img.height();
         this.imgW = img.width();
         this.energy = new double[imgW][imgH];
     }
 
-    public synchronized double[][] energy() {
+    synchronized double[][] energy() {
         return energy;
     }
 
-    public void start() throws InterruptedException {
+    void start() throws InterruptedException {
         energy = new double[imgW][imgH];
 
         int nBlock = (int) Math.round(1.0*imgW*imgH/BLOCK_SIZE);

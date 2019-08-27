@@ -1,6 +1,3 @@
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-
 /**
  * SeamCarver. Seam-carving is a content-aware image resizing technique where
  * the image is reduced in size by one pixel of height (or width) at a time.
@@ -17,7 +14,7 @@ public class SeamCarver {
     /**
      * create a seam carver object based on the given picture.
      */
-    public SeamCarver(Picture picture) {
+    SeamCarver(Picture picture) {
 
         // null argument check
         checkNull(picture);
